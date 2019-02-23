@@ -1,17 +1,17 @@
 settingsver: 1
-dnsmasqrange: 192.168.0.1
-boothost: 192.168.0.38
+dnsmasqrange: 192.168.1.1
+boothost: 192.168.1.6
 boothostport: 8080
 clustername: cluster
-startcidr: 192.168.0.150/24
+startcidr: 192.168.1.150/24
 nodecount: 3
 ipxetemplate: templates/ipxe.tpl
 boottemplate: templates/boot.tpl
 installtemplate: templates/install.tpl
 rketemplate: templates/cluster.yml.tpl
 publickeyfile: id_rsa.pub
-gateway: 192.168.0.1
+gateway: 192.168.1.254
 mtu: 1500
 dhcp: false
 nameservers:
-- 192.168.0.1
+- 192.168.1.254
