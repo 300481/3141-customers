@@ -1,0 +1,13 @@
+settingsver: 1
+dnsmasqrange: 192.168.0.1
+boothost: 192.168.0.46
+boothostport: 8080
+clustername: cluster
+startcidr: 192.168.0.50/24
+nodecount: 1
+publickey: ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAmErYAR6kJheLcFGU4w5lW2g88u+HdU5jAbaHAzl5QpCThcWWpsr1sNwvFvwPvugwLJ2dXHu3MFMgHesa1R421GAShTFoclMgR+PNM3wDHfYow+K3X2Wnj4QZ2Z6p4GK+OsDObM63irQONsrNqdZ6eMyqUjr9tSE4on9td2Sohb4DCCxEGYltJCVS+jKmnSAK72aSYOY52ey74wSFE1NQ19l7f8o3858YTrNCUBCeV7Ob+pBYU/6dkrz3/dd5fA/OkpgB/RC47/LKhO///ScrpuLfj3ieROMeS3lvL6cP6clq5UzOHbG8q7v3qMsePVzft2hJGojzu5DBhkaPTo/Euw==
+gateway: 192.168.0.1
+mtu: 1500
+dhcp: false
+nameservers:
+- 192.168.0.1

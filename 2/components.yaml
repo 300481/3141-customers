@@ -1,0 +1,2 @@
+metallb:
+  addresses: 192.168.0.112/28
