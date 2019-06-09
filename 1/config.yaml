@@ -1,13 +1,13 @@
 settingsver: 1
 dnsmasqrange: 192.168.1.1
-boothost: 192.168.1.6
+boothost: ${IP}
 boothostport: 8080
 clustername: cluster
 startcidr: 192.168.1.150/24
 nodecount: 3
 publickey: ${PUBKEY}
-gateway: 192.168.1.254
+gateway: ${GW}
 mtu: 1500
 dhcp: false
 nameservers:
-- 192.168.1.254
+- ${GW}
