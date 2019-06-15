@@ -8,7 +8,7 @@ CUSTOMER=$1
 APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
 
 # clone app and start
-git clone --branch ${APPVER} git@github.com:300481/3141.git app
+git clone --branch ${APPVER} https://github.com/300481/3141.git app
 app/3141.sh
 
 # wait for app
