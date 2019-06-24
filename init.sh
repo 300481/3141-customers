@@ -8,7 +8,7 @@ MODE=${2:-start}
 startApp() {
     export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
     export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
-    docker-compose up
+    docker-compose up -d
 }
 
 uploadTemplates() {
