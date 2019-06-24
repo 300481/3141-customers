@@ -1,4 +1,4 @@
 #cloud-config
 runcmd:
-- sudo mkdir /data
+- sudo mkdir /mnt/data
 - sudo ros install -c http://{{ .Boothost }}:8080/api/tpl/install/$(sudo cat /sys/class/dmi/id/product_uuid) -d /dev/sda -f
