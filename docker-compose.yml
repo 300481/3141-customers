@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  app:
+    image: "300481/3141:${APPVER}"
+    restart: always
+    network_mode: "host"
+  dnsmasq:
+    image: "300481/dnsmasq:${DNSVER}"
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    network_mode: "host"
