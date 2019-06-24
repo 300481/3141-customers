@@ -10,3 +10,4 @@ nameservers:
 - ${GW}
 appver: v0.5.9
 dnsver: v0.2.2
+rkever: v0.1.18
