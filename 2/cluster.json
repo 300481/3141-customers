@@ -1,0 +1,17 @@
+{
+    "Name": "cluster",
+    "Nodes": {
+        "0E29B7F5-31F5-4A1C-B3BD-FE20BFC283DD": {
+            "Hostname": "0E29B7F5-31F5-4A1C-B3BD-FE20BFC283DD",
+            "AddressCIDR": "192.168.0.50/24",
+            "Address": "192.168.0.50",
+            "Gateway": "192.168.0.1",
+            "MTU": 1500,
+            "Nameservers": [
+                "192.168.0.1"
+            ],
+            "PublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDoSw3Kot06pMKyQKvvTsBUpP8q/CnyBJYhN41rnx7XDA5G7iw7SrAI/acz5T8op5U0qBbT1Wv29lRh0Bsv+SCV55ZyK3no+g1oS0d1rliNbqYMrxrPJA/2HvoLBN6+JC5217n0RIfk/QGzKqNbQA/nC8ma0v4g7tvNcn8VxTl7rsulA+R5DGWU9wDpOQiTKfmGfbqM1JU2ansNuXtQp6s4OSphZHWPDDbvhgLM5H24Ihsk5PcC/RU4YIZKL7EGwI/syBnHLrPjo46IjIXkoSgpauLvGuRy9T0p3K6nwPdnSJDbP2VInwL7ghcpcpwcMoWHrUUWAxNOwfFfHQw79QjV",
+            "DHCP": "false"
+        }
+    }
+}
