@@ -1,0 +1,8 @@
+#!ipxe
+dhcp
+set base-url http://releases.rancher.com/os/v1.5.2
+
+kernel ${base-url}/vmlinuz printk.devkmsg=on rancher.debug=true rancher.cloud_init.datasources=[url:http://{{ .Boothost }}:8080/api/tpl/boot]
+initrd ${base-url}/initrd
+boot
+
