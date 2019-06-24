@@ -26,7 +26,7 @@ uploadConfig() {
     curl -X POST -d "$(envsubst < ${CUSTOMER}/config.yaml)" localhost:8080/api/config
 }
 
-if ( "${MODE}" == "start" ) ; then
+if [[ "${MODE}" == "start" ]] ; then
     startApp
 fi
 
