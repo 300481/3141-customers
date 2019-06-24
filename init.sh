@@ -26,9 +26,16 @@ uploadConfig() {
     curl -X POST -d "$(envsubst < ${CUSTOMER}/config.yaml)" localhost:8080/api/config
 }
 
+uploadClusterConfig() {
+    if [[ -f ${CUSTOMER}/cluster.json ]] ; then
+        curl -X POST -d "$(< ${CUSTOMER}/cluster.json)" localhost:8080/api/cluster
+    fi
+}
+
 if [[ "${MODE}" == "start" ]] ; then
     startApp
 fi
 
 uploadTemplates
 uploadConfig
+uploadClusterConfig
