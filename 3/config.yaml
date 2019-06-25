@@ -8,6 +8,6 @@ mtu: 1500
 dhcp: false
 nameservers:
 - ${GW}
-appver: v0.5.9
+appver: v0.5.10
 dnsver: v0.2.2
 rkever: v0.1.18
