@@ -28,6 +28,8 @@ example/api/tpl;775
 2/api/tpl/cluster;664
 2/api/tpl/install;664
 2/api/tpl/ipxe;664
+2/cluster.json;664
+2/cluster.yml;664
 2/components.yaml;664
 2/config.yaml;664
 3/.ssh/id_rsa;600
