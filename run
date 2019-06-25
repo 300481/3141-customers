@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # check if parameters are set
-[[ $# -eq 0 ]] && { echo "usage: $0 [init,start,update,keygen] [CUSTOMER]" ; exit 1 ; }
+[[ $# -eq 0 ]] && { echo "usage: $0 [init,start,update,keygen,rkeup,rkeremove] [CUSTOMER]" ; exit 1 ; }
 
 MODE=${1}
 CUSTOMER=${2}
@@ -64,6 +64,16 @@ uploadClusterConfig() {
     fi
 }
 
+rkeUp() {
+    export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
+    docker run -it --rm --name rke -v $(pwd)/${CUSTOMER}:/data -v $(pwd)/${CUSTOMER}/.ssh:/.ssh 300481/rke:${RKEVER} up
+}
+
+rkeRemove() {
+    export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
+    docker run -it --rm --name rke -v $(pwd)/${CUSTOMER}:/data -v $(pwd)/${CUSTOMER}/.ssh:/.ssh 300481/rke:${RKEVER} remove
+}
+
 case ${MODE} in
     init)
         runInit
@@ -77,6 +87,12 @@ case ${MODE} in
         ;;
     update)
         update
+        ;;
+    rkeup)
+        rkeUp
+        ;;
+    rkeremove)
+        rkeRemove
         ;;
     *)
         exit
