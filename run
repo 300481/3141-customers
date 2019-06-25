@@ -72,6 +72,7 @@ case ${MODE} in
         keyGen
         ;;
     start)
+        runInit
         startApp
         ;;
     update)
