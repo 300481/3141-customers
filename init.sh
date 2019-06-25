@@ -1,15 +1,33 @@
 #!/usr/bin/env bash
 
-[[ -n $1 ]] || { echo "usage: $0 [CUSTOMER] [update,start,keygen]" ; exit 1 ; }
+# check if parameters are set
+[[ $# -eq 0 ]] && { echo "usage: $0 [init,start,update,keygen] [CUSTOMER]" ; exit 1 ; }
 
-CUSTOMER=${1}
-MODE=${2:-start}
-SSHDIR=${CUSTOMER}/.ssh
+MODE=${1}
+CUSTOMER=${2}
+SELF_DIR=$(git rev-parse --show-toplevel)
+SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
+
+runInit() {
+    [[ -d ${SELF_DIR}/../file-permission-hooks ]] && return
+    git clone https://github.com/300481/file-permission-hooks.git ${SELF_DIR}/../file-permission-hooks
+    for HOOK in $(find ${SELF_DIR}/../file-permission-hooks/ -maxdepth 1 -executable -type f) ; do
+        ln -s ${HOOK} ${SELF_DIR}/.git/hooks/${HOOK##*/}
+    done
+    exit
+}
 
 startApp() {
     export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
     export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
     docker-compose up -d
+    update
+}
+
+update() {
+    uploadTemplates
+    uploadConfig
+    uploadClusterConfig
 }
 
 keyGen() {
@@ -45,14 +63,20 @@ uploadClusterConfig() {
     fi
 }
 
-if [[ "${MODE}" == "start" ]] ; then
-    startApp
-fi
-
-if [[ "${MODE}" == "keygen" ]]; then
-    keyGen
-else
-    uploadTemplates
-    uploadConfig
-    uploadClusterConfig
-fi
+case ${MODE} in
+    init)
+        runInit
+        ;;
+    keygen)
+        keyGen
+        ;;
+    start)
+        startApp
+        ;;
+    update)
+        update
+        ;;
+    *)
+        exit
+        ;;
+esac
