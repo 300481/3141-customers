@@ -31,4 +31,4 @@ example/api/tpl/install;664
 example/api/tpl/ipxe;664
 example/components.yaml;664
 example/config.yaml;664
-init.sh;775
+run;775
