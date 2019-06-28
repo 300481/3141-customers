@@ -4,6 +4,8 @@ services:
     image: "300481/3141:${APPVER}"
     restart: always
     network_mode: "host"
+    volumes:
+      - "${SSHDIR}:/.ssh"
   dnsmasq:
     image: "300481/dnsmasq:${DNSVER}"
     restart: always

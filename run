@@ -6,7 +6,7 @@
 MODE=${1}
 CUSTOMER=${2}
 SELF_DIR=$(git rev-parse --show-toplevel)
-SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
+export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
 
 runInit() {
     [[ -d ${SELF_DIR}/../file-permission-hooks ]] && return
@@ -55,7 +55,6 @@ uploadConfig() {
     export GW=$(ip route | awk '/default/ { print $3 }')
     export IP=$(ip route | awk '/default/ { print $9 }')
     export PUBKEY=$(< ${SSHDIR}/id_rsa.pub)
-    export PRIVKEY=${SSHDIR}/id_rsa
     curl -X POST -d "$(envsubst < ${CUSTOMER}/config.yaml)" localhost:8080/api/config
 }
 
