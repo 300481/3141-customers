@@ -73,11 +73,14 @@ deploy() {
     keyGen
     startApp
     echo -n "Waiting for cluster deployment..."
-    while [[ $(curl ${URL_READINESS} | ${JQ} .connect) == false ]] ; do
+    while [[ $(curl -s ${URL_READINESS} | ${JQ} .connect) == false ]] ; do
         echo -n "."
         sleep 10
     done
     echo "OK"
+    echo "Install Rancher Kubernetes Engine"
+    sleep 2
+    rkeUp
 }
 
 rkeUp() {
