@@ -66,12 +66,12 @@ uploadClusterConfig() {
 
 rkeUp() {
     export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
-    docker run -it --rm --name rke -v $(pwd)/${CUSTOMER}:/data -v $(pwd)/${CUSTOMER}/.ssh:/.ssh 300481/rke:${RKEVER} up
+    docker run -it --rm --name rke -v $(pwd)/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER} up
 }
 
 rkeRemove() {
     export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
-    docker run -it --rm --name rke -v $(pwd)/${CUSTOMER}:/data -v $(pwd)/${CUSTOMER}/.ssh:/.ssh 300481/rke:${RKEVER} remove
+    docker run -it --rm --name rke -v $(pwd)/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER} remove
 }
 
 case ${MODE} in
