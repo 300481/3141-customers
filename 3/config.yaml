@@ -3,6 +3,7 @@ clustername: cluster
 startcidr: 192.168.1.150/24
 nodecount: 1
 publickey: ${PUBKEY}
+privatekey: ${PRIVKEY}
 gateway: ${GW}
 mtu: 1500
 dhcp: false
