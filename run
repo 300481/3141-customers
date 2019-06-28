@@ -79,6 +79,12 @@ deploy() {
     done
     echo "OK"
     echo "Install Rancher Kubernetes Engine"
+    echo ""
+    echo ""
+    echo "Getting 3141 cluster config"    
+    curl -s localhost:8080/api/cluster > ${CUSTOMER}/cluster.json
+    echo "Getting rke cluster config"    
+    curl -s localhost:8080/api/tpl/cluster > ${CUSTOMER}/cluster.yml
     sleep 2
     rkeUp
 }
