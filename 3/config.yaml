@@ -3,12 +3,12 @@ clustername: cluster
 startcidr: 192.168.1.150/24
 nodecount: 1
 publickey: ${PUBKEY}
-privatekey: ${PRIVKEY}
+privatekeyfile: ${PRIVKEY}
 gateway: ${GW}
 mtu: 1500
 dhcp: false
 nameservers:
 - ${GW}
-appver: v0.6.0
+appver: v0.6.2
 dnsver: v0.2.2
 rkever: v0.1.18
