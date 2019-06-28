@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
-# check if parameters are set
-[[ $# -eq 0 ]] && { echo "usage: $0 [init,start,update,keygen,rkeup,rkeremove] [CUSTOMER]" ; exit 1 ; }
+# very cheap check if parameters are set
+[[ $# -lt 2 ]] && { echo "usage: $0 [init,start,update,keygen,deploy,rkeup,rkeremove] [CUSTOMER]" ; exit 1 ; }
 
 MODE=${1}
 CUSTOMER=${2}
+
 SELF_DIR=$(git rev-parse --show-toplevel)
 export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
+
+JQ="docker run -i --rm 300481/jq:v1.6"
+URL_READINESS="localhost:8080/api/readiness"
 
 runInit() {
     [[ -d ${SELF_DIR}/../file-permission-hooks ]] && return
@@ -33,14 +37,14 @@ update() {
 
 keyGen() {
     if [[ -f ${CUSTOMER}/.ssh/id_rsa ]] ; then
-        exit
+        return
     fi
     if ! [[ -d ${SSHDIR} ]] ; then
         mkdir -p ${SSHDIR}
         chmod 700 ${SSHDIR}
     fi
     ssh-keygen -t rsa -b 4096 -f ${SSHDIR}/id_rsa -P "" -C "" -q
-    exit
+    return
 }
 
 uploadTemplates() {
@@ -62,6 +66,18 @@ uploadClusterConfig() {
     if [[ -f ${CUSTOMER}/cluster.json ]] ; then
         curl -X POST -d "$(< ${CUSTOMER}/cluster.json)" localhost:8080/api/cluster
     fi
+}
+
+deploy() {
+    runInit
+    keyGen
+    startApp
+    echo -n "Waiting for cluster deployment..."
+    while [[ $(curl ${URL_READINESS} | ${JQ} .connect) == false ]] ; do
+        echo -n "."
+        sleep 10
+    done
+    echo "OK"
 }
 
 rkeUp() {
@@ -87,6 +103,9 @@ case ${MODE} in
         ;;
     update)
         update
+        ;;
+    deploy)
+        deploy
         ;;
     rkeup)
         rkeUp
