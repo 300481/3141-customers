@@ -1,2 +1,3 @@
 # 3141-customers
-holds some provisioner configurations
+
+holds customer configurations
