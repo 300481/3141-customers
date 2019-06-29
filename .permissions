@@ -9,9 +9,6 @@ example-with-datadisk/api/tpl;775
 example-without-datadisk;775
 example-without-datadisk/api;775
 example-without-datadisk/api/tpl;775
-example;
-example/api;
-example/api/tpl;
 .permissions;664
 3/.ssh/id_rsa;664
 3/.ssh/id_rsa.pub;664
