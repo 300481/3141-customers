@@ -11,3 +11,4 @@ nameservers:
 appver: v0.6.4
 dnsver: v0.3.0
 rkever: v0.1.18
+kctlver: v1.14.3

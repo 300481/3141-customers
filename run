@@ -12,9 +12,10 @@ export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
 export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
 export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
 export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
+export KCTLVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 kctlver < ${CUSTOMER}/config.yaml)
 
 JQ="docker run -i --rm 300481/jq:v1.6"
-KUBECTL="docker run -it --rm -v ${SELF_DIR}/${CUSTOMER}:/data 300481/kubectl:v1.14.3"
+KUBECTL="docker run -it --rm -v ${SELF_DIR}/${CUSTOMER}:/data 300481/kubectl:${KCTLVER}"
 RKE="docker run -it --rm --name rke -v ${SELF_DIR}/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER}"
 URL_READINESS="localhost:8080/api/readiness"
 
