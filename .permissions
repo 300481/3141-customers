@@ -3,7 +3,6 @@
 1/api;775
 1/api/tpl;775
 2;775
-2/.ssh;
 2/api;775
 2/api/tpl;775
 3;775
@@ -13,7 +12,6 @@
 example;775
 example/api;775
 example/api/tpl;775
-.permissions;664
 1/.ssh/id_rsa;600
 1/.ssh/id_rsa.pub;644
 1/api/tpl/boot;664
