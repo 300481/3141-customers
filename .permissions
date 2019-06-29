@@ -1,7 +1,3 @@
-3;
-3/.ssh;
-3/api;
-3/api/tpl;
 example-with-datadisk;775
 example-with-datadisk/.ssh;700
 example-with-datadisk/api;775
