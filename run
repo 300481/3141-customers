@@ -97,7 +97,7 @@ deploy() {
     ${KUBECTL} get nodes
 }
 
-decommission() {
+decomission() {
     ${RKE} remove
 }
 
