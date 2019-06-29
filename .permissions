@@ -1,7 +1,7 @@
-3;775
-3/.ssh;775
-3/api;775
-3/api/tpl;775
+3;
+3/.ssh;
+3/api;
+3/api/tpl;
 example-with-datadisk;775
 example-with-datadisk/.ssh;700
 example-with-datadisk/api;775
@@ -10,14 +10,6 @@ example-without-datadisk;775
 example-without-datadisk/api;775
 example-without-datadisk/api/tpl;775
 .permissions;664
-3/.ssh/id_rsa;664
-3/.ssh/id_rsa.pub;664
-3/api/tpl/boot;664
-3/api/tpl/cluster;664
-3/api/tpl/install;664
-3/api/tpl/ipxe;664
-3/components.yaml;664
-3/config.yaml;664
 README.md;664
 docker-compose.yml;664
 example-with-datadisk/.ssh/id_rsa;600
