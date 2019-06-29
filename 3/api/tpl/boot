@@ -1,0 +1,4 @@
+#cloud-config
+runcmd:
+- sudo touch /dev/sr0
+- sudo ros install -c http://{{ .Boothost }}:8080/api/tpl/install/$(sudo cat /sys/class/dmi/id/product_uuid) -d /dev/sda -f

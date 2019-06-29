@@ -15,5 +15,3 @@ rancher:
       {{- range .Nameservers }}
       - {{ . }}
       {{- end }}
-runcmd:
-- sudo mkdir /mnt/data
