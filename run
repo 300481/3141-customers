@@ -21,12 +21,11 @@ runInit() {
     for HOOK in $(find ${SELF_DIR}/../file-permission-hooks/ -maxdepth 1 -executable -type f) ; do
         ln -s ${HOOK} ${SELF_DIR}/.git/hooks/${HOOK##*/}
     done
-    git checkout $(git rev-parse --abbrev-ref HEAD)
-    exit
 }
 
 startApp() {
     runInit
+    git checkout $(git rev-parse --abbrev-ref HEAD)
     keyGen
     docker-compose up -d
     loadConfig
