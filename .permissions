@@ -6,10 +6,6 @@
 2/.ssh;700
 2/api;775
 2/api/tpl;775
-3;
-3/.ssh;
-3/api;
-3/api/tpl;
 example;775
 example/api;775
 example/api/tpl;775

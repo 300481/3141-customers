@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # very cheap check if parameters are set
-[[ $# -lt 2 ]] && { echo "usage: $0 [init,start,update,keygen,deploy,rkeup,rkeremove] [CUSTOMER]" ; exit 1 ; }
+[[ $# -lt 2 ]] && { echo "usage: $0 [start,stop,deploy,decomission] [CUSTOMER]" ; exit 1 ; }
 
 MODE=${1}
 CUSTOMER=${2}
@@ -11,6 +11,9 @@ export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
 
 JQ="docker run -i --rm 300481/jq:v1.6"
 URL_READINESS="localhost:8080/api/readiness"
+
+export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
+export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
 
 runInit() {
     [[ -d ${SELF_DIR}/../file-permission-hooks ]] && return
@@ -23,13 +26,17 @@ runInit() {
 }
 
 startApp() {
-    export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
-    export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
+    runInit
+    keyGen
     docker-compose up -d
-    update
+    loadConfig
 }
 
-update() {
+stopApp() {
+    docker-compose down 2>/dev/null
+}
+
+loadConfig() {
     uploadTemplates
     uploadConfig
     uploadClusterConfig
@@ -69,8 +76,6 @@ uploadClusterConfig() {
 }
 
 deploy() {
-    runInit
-    keyGen
     startApp
     echo -n "Waiting for cluster deployment..."
     while [[ $(curl -s ${URL_READINESS} | ${JQ} .connect) == false ]] ; do
@@ -100,29 +105,19 @@ rkeRemove() {
 }
 
 case ${MODE} in
-    init)
-        runInit
-        ;;
-    keygen)
-        keyGen
-        ;;
     start)
-        runInit
         startApp
         ;;
-    update)
-        update
+    stop)
+        stopApp
         ;;
     deploy)
         deploy
         ;;
-    rkeup)
-        rkeUp
-        ;;
-    rkeremove)
+    decomission)
         rkeRemove
         ;;
     *)
-        exit
+        echo "usage: $0 [start,stop,deploy,decomission] [CUSTOMER]"
         ;;
 esac
