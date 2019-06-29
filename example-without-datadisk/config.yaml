@@ -9,5 +9,5 @@ dhcp: false
 nameservers:
 - ${GW}
 appver: v0.6.4
-dnsver: v0.2.2
+dnsver: v0.3.0
 rkever: v0.1.18
