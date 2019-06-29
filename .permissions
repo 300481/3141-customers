@@ -1,5 +1,4 @@
 example-with-datadisk;775
-example-with-datadisk/.ssh;700
 example-with-datadisk/api;775
 example-with-datadisk/api/tpl;775
 example-without-datadisk;775
@@ -8,8 +7,6 @@ example-without-datadisk/api/tpl;775
 .permissions;664
 README.md;664
 docker-compose.yml;664
-example-with-datadisk/.ssh/id_rsa;600
-example-with-datadisk/.ssh/id_rsa.pub;644
 example-with-datadisk/api/tpl/boot;664
 example-with-datadisk/api/tpl/cluster;664
 example-with-datadisk/api/tpl/install;664
