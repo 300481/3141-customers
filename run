@@ -9,11 +9,14 @@ CUSTOMER=${2}
 SELF_DIR=$(git rev-parse --show-toplevel)
 export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
 
-JQ="docker run -i --rm 300481/jq:v1.6"
-URL_READINESS="localhost:8080/api/readiness"
-
 export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
 export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
+export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
+
+JQ="docker run -i --rm 300481/jq:v1.6"
+KUBECTL="docker run -it --rm -v ${SELF_DIR}/${CUSTOMER}:/data 300481/kubectl:v1.14.3"
+RKE="docker run -it --rm --name rke -v ${SELF_DIR}/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER}"
+URL_READINESS="localhost:8080/api/readiness"
 
 runInit() {
     [[ -d ${SELF_DIR}/../file-permission-hooks ]] && return
@@ -90,17 +93,12 @@ deploy() {
     echo "Getting rke cluster config"    
     curl -s localhost:8080/api/tpl/cluster > ${CUSTOMER}/cluster.yml
     sleep 2
-    rkeUp
+    ${RKE} up
+    ${KUBECTL} get nodes
 }
 
-rkeUp() {
-    export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
-    docker run -it --rm --name rke -v $(pwd)/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER} up
-}
-
-rkeRemove() {
-    export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
-    docker run -it --rm --name rke -v $(pwd)/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER} remove
+decommission() {
+    ${RKE} remove
 }
 
 case ${MODE} in
@@ -114,7 +112,7 @@ case ${MODE} in
         deploy
         ;;
     decomission)
-        rkeRemove
+        decomission
         ;;
     *)
         echo "usage: $0 [start,stop,deploy,decomission] [CUSTOMER]"
