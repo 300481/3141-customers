@@ -15,7 +15,7 @@ export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOME
 export KCTLVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 kctlver < ${CUSTOMER}/config.yaml)
 
 JQ="docker run -i --rm 300481/jq:v1.6"
-KUBECTL="docker run -it --rm -v ${SELF_DIR}/${CUSTOMER}:/data 300481/kubectl:${KCTLVER}"
+KUBECTL="docker run -i --rm -v ${SELF_DIR}/${CUSTOMER}:/data 300481/kubectl:${KCTLVER}"
 RKE="docker run -it --rm --name rke -v ${SELF_DIR}/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER}"
 URL_READINESS="localhost:8080/api/readiness"
 
@@ -78,6 +78,11 @@ uploadClusterConfig() {
     fi
 }
 
+startK8sAppOperator() {
+    APP_OPERATOR_URL="https://raw.githubusercontent.com/300481/kubernetes-applications-operator-watchdog/master/scripts/start-operator.sh"
+    curl ${APP_OPERATOR_URL} | ${KUBECTL} apply -f -
+}
+
 deploy() {
     startApp
     echo -n "Waiting for cluster deployment..."
@@ -96,6 +101,7 @@ deploy() {
     sleep 2
     ${RKE} up
     ${KUBECTL} get nodes
+    startK8sAppOperator
 }
 
 decomission() {
