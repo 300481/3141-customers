@@ -12,10 +12,8 @@ export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
 export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
 export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
 export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
-export KCTLVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 kctlver < ${CUSTOMER}/config.yaml)
 
 JQ="docker run -i --rm 300481/jq:v1.6"
-KUBECTL="docker run -i --rm -v ${SELF_DIR}/${CUSTOMER}:/data 300481/kubectl:${KCTLVER}"
 RKE="docker run -it --rm --name rke -v ${SELF_DIR}/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER}"
 URL_READINESS="localhost:8080/api/readiness"
 
@@ -25,6 +23,12 @@ runInit() {
     for HOOK in $(find ${SELF_DIR}/../file-permission-hooks/ -maxdepth 1 -executable -type f) ; do
         ln -s ${HOOK} ${SELF_DIR}/.git/hooks/${HOOK##*/}
     done
+}
+
+installKubectl() {
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    chmod +x kubectl
+    mv kubectl /usr/local/bin
 }
 
 startApp() {
@@ -85,6 +89,7 @@ startK8sAppOperator() {
 
 deploy() {
     startApp
+    installKubectl
     echo -n "Waiting for cluster deployment..."
     while [[ $(curl -s ${URL_READINESS} | ${JQ} .connect) == false ]] ; do
         echo -n "."
@@ -100,7 +105,9 @@ deploy() {
     curl -s localhost:8080/api/tpl/cluster > ${CUSTOMER}/cluster.yml
     sleep 2
     ${RKE} up
-    ${KUBECTL} get nodes
+    mkdir ${HOME}/.kube
+    cp ${SELF_DIR}/${CUSTOMER}/kube_config_cluster.yml ${HOME}/.kube/config
+    kubectl get nodes
     startK8sAppOperator
 }
 
