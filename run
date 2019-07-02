@@ -80,7 +80,7 @@ uploadClusterConfig() {
 
 startK8sAppOperator() {
     APP_OPERATOR_URL="https://raw.githubusercontent.com/300481/kubernetes-applications-operator-watchdog/master/scripts/start-operator.sh"
-    curl -s ${APP_OPERATOR_URL} | ${KUBECTL} apply -f -
+    curl -s ${APP_OPERATOR_URL} | bash
 }
 
 deploy() {
