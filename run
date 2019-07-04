@@ -95,11 +95,6 @@ uploadClusterConfig() {
     fi
 }
 
-startK8sAppOperator() {
-    APP_OPERATOR_URL="https://raw.githubusercontent.com/300481/kubernetes-applications-operator-watchdog/master/scripts/start-operator.sh"
-    curl -s ${APP_OPERATOR_URL} | bash
-}
-
 installIdentity() {
     envsubst < identity.yaml | kubectl apply -f -
 }
@@ -114,6 +109,11 @@ checkK8sReady() {
         sleep 10
     done
     return 1
+}
+
+startK8sAppOperator() {
+    APP_OPERATOR_URL="https://raw.githubusercontent.com/300481/kubernetes-applications-operator-watchdog/master/scripts/start-operator.sh"
+    curl -s ${APP_OPERATOR_URL} | bash
 }
 
 deploy() {
