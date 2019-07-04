@@ -10,6 +10,7 @@ export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
 export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
 export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
 export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
+export NODECOUNT=$(docker run -i --rm --name yq 300481/yq:v2.4.0 nodecount < ${CUSTOMER}/config.yaml)
 
 JQ="docker run -i --rm 300481/jq:v1.6"
 RKE="docker run -it --rm --name rke -v ${SELF_DIR}/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER}"
@@ -103,6 +104,18 @@ installIdentity() {
     envsubst < identity.yaml | kubectl apply -f -
 }
 
+checkK8sReady() {
+    for i in $(seq 1 30) ; do
+        READY_NODES=$(JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}' \
+                      && kubectl get nodes -o jsonpath="$JSONPATH" | grep "Ready=True" | wc -l)
+        if [[ ${NODECOUNT} -eq ${READY_NODES} ]] ; then
+            return 0
+        fi
+        sleep 10
+    done
+    return 1
+}
+
 deploy() {
     startApp
     installKubectl
@@ -121,11 +134,16 @@ deploy() {
     curl -s localhost:8080/api/tpl/cluster > ${CUSTOMER}/cluster.yml
     sleep 2
     ${RKE} up
-    mkdir ${HOME}/.kube
+    [[ -d ${HOME}/.kube ]] || mkdir ${HOME}/.kube
+
     cp ${SELF_DIR}/${CUSTOMER}/kube_config_cluster.yml ${HOME}/.kube/config
-    kubectl get nodes
-    installIdentity
-    startK8sAppOperator
+
+    if [[ checkK8sReady ]] ; then
+        installIdentity
+        startK8sAppOperator
+    else
+        echo "Cluster not ready. Please retry deployment."
+    fi
 }
 
 decomission() {
