@@ -19,4 +19,5 @@ example-without-datadisk/api/tpl/install;664
 example-without-datadisk/api/tpl/ipxe;664
 example-without-datadisk/components.yaml;664
 example-without-datadisk/config.yaml;664
+identity.yaml;664
 run;775

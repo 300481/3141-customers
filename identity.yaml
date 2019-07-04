@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  customer: ${CUSTOMER}
+kind: ConfigMap
+metadata:
+  name: identity
+  namespace: kube-system
