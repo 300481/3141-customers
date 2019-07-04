@@ -3,12 +3,10 @@
 # very cheap check if parameters are set
 [[ $# -lt 2 ]] && { echo "usage: $0 [start,stop,deploy,decomission] [CUSTOMER]" ; exit 1 ; }
 
-MODE=${1}
-CUSTOMER=${2}
-
-SELF_DIR=$(git rev-parse --show-toplevel)
+export MODE=${1}
+export CUSTOMER=${2}
+export SELF_DIR=$(git rev-parse --show-toplevel)
 export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
-
 export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
 export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
 export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
@@ -26,9 +24,23 @@ runInit() {
 }
 
 installKubectl() {
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-    chmod +x kubectl
-    mv kubectl /usr/local/bin
+    KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    if  [[ -f /usr/local/bin/kubectl-${KUBECTL_VERSION} ]] && \
+        [[ -L /usr/local/bin/kubectl ]] ; then
+        return
+    fi
+
+    if [[ -L /usr/local/bin/kubectl ]] ; then
+        unlink /usr/local/bin/kubectl
+    fi
+
+    curl \
+        -L https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+        -o /usr/local/bin/kubectl-${KUBECTL_VERSION}
+
+    chmod +x /usr/local/bin/kubectl-${KUBECTL_VERSION}
+
+    ln -s /usr/local/bin/kubectl-${KUBECTL_VERSION} /usr/local/bin/kubectl
 }
 
 startApp() {
