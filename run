@@ -99,6 +99,10 @@ startK8sAppOperator() {
     curl -s ${APP_OPERATOR_URL} | bash
 }
 
+installIdentity() {
+    envsubst < identity.yaml | kubectl apply -f -
+}
+
 deploy() {
     startApp
     installKubectl
@@ -120,6 +124,7 @@ deploy() {
     mkdir ${HOME}/.kube
     cp ${SELF_DIR}/${CUSTOMER}/kube_config_cluster.yml ${HOME}/.kube/config
     kubectl get nodes
+    installIdentity
     startK8sAppOperator
 }
 
