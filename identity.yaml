@@ -1,6 +1,7 @@
 apiVersion: v1
 data:
   identity: "${IDENTITY}"
+  configrepo: "${CONFIGREPO}"
 kind: ConfigMap
 metadata:
   name: identity

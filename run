@@ -5,6 +5,7 @@
 
 export MODE=${1}
 export IDENTITY=${2}
+export CONFIGREPO="https://raw.githubusercontent.com/300481/3141-systems/master"
 export SELF_DIR=$(git rev-parse --show-toplevel)
 export SSHDIR=${SELF_DIR}/${IDENTITY}/.ssh
 export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${IDENTITY}/config.yaml)
@@ -101,6 +102,7 @@ uploadClusterConfig() {
 
 installIdentity() {
     envsubst < identity.yaml | kubectl apply -f -
+    envsubst < configrepo.yaml | kubectl apply -f -
 }
 
 checkK8sReady() {
