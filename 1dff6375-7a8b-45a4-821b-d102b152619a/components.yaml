@@ -2,5 +2,12 @@ components:
 - name: metallb
   enabled: true
   chart: https://github.com/300481/metallb.git
+  directory: helm-chart
+  version: v0.7.3
   values:
-    addresses: 192.168.0.112/28
+    configInLine: |
+      address-pools:
+      - name: my-ip-space
+        protocol: layer2
+        addresses:
+        - 192.168.0.112/28
