@@ -7,7 +7,7 @@ components:
   values:
     configInLine: |
       address-pools:
-      - name: my-ip-space
+      - name: ip-space
         protocol: layer2
         addresses:
         - 192.168.0.112/28
