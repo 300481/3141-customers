@@ -1,0 +1,13 @@
+boothost: ${IP}
+clustername: cluster
+startcidr: 192.168.0.50/24
+nodecount: 1
+publickey: ${PUBKEY}
+gateway: ${GW}
+mtu: 1500
+dhcp: false
+nameservers:
+- ${GW}
+appver: v0.6.4
+dnsver: v0.3.0
+rkever: v0.1.18

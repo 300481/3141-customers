@@ -5,6 +5,17 @@ example-without-datadisk;775
 example-without-datadisk/api;775
 example-without-datadisk/api/tpl;775
 .permissions;664
+1dff6375-7a8b-45a4-821b-d102b152619a/.ssh/id_rsa;600
+1dff6375-7a8b-45a4-821b-d102b152619a/.ssh/id_rsa.pub;644
+1dff6375-7a8b-45a4-821b-d102b152619a/api/tpl/boot;644
+1dff6375-7a8b-45a4-821b-d102b152619a/api/tpl/cluster;644
+1dff6375-7a8b-45a4-821b-d102b152619a/api/tpl/install;644
+1dff6375-7a8b-45a4-821b-d102b152619a/api/tpl/ipxe;644
+1dff6375-7a8b-45a4-821b-d102b152619a/cluster.json;644
+1dff6375-7a8b-45a4-821b-d102b152619a/cluster.yml;644
+1dff6375-7a8b-45a4-821b-d102b152619a/components.yaml;644
+1dff6375-7a8b-45a4-821b-d102b152619a/config.yaml;644
+1dff6375-7a8b-45a4-821b-d102b152619a/kube_config_cluster.yml;640
 README.md;664
 docker-compose.yml;664
 example-with-datadisk/api/tpl/boot;664

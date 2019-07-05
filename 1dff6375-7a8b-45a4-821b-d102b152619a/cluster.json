@@ -1,0 +1,18 @@
+{
+    "Name": "cluster",
+    "NodeCount": 1,
+    "Nodes": {
+        "0E29B7F5-31F5-4A1C-B3BD-FE20BFC283DD": {
+            "Hostname": "0E29B7F5-31F5-4A1C-B3BD-FE20BFC283DD",
+            "AddressCIDR": "192.168.0.50/24",
+            "Address": "192.168.0.50",
+            "Gateway": "192.168.0.1",
+            "MTU": 1500,
+            "Nameservers": [
+                "192.168.0.1"
+            ],
+            "PublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC2dsMJTRY+woFzXhpTfogQoZKF/luF3Md6JVBMEzDdLFSVezC4npB9xLdHcXKsveCeCkxavXRHqeJWd3+M4O5Z/9FfqYvYBBPBeyRbrzXXfGwCTxbqS0hc5HwTnT7+hbru/gnRP4Z39YCobTUyIwpHKF0s1dEnw/JkvXmxjhGQ5B/fwraRjQwG7vAe4i+yywfRPKBpK8/Ysdv59uxnjCbpAopgbYZgCrroG/r8DwOg9SCJFrmtvA2Z7Rhc0Lu4beY7dKLq733vEoGPQ1UMRFOtMaNUutHXP25SyXOd/Tihib0MeRhc5OUexeF1d5PEosN7RzrdoeO1hWD2DeIyeTEDGpcY0fcqR4Mbe5BAzYGRiGD/9j/yd2YZstAe8bbbn4xh2lxTgI6EicV3DgX4u1ixpS1O1CWEl160KFbwE8BcFzLWQSOfRwn8XO3Mgs+sQsnzmgwSbiOaMJ5gcdGrmlqr9PaQckuLx4wUXTE7l/URdEyC/qsx15LmbUuAzT9ettIyaortuPsdMmhMTr3hhqFwCgKGRhz2+XMO+pJqVHsq0aHHdGnFWvEReDhZWkcCPMSOj52CYj8BsmhKJktufmK8k19goEJdgTT2yeIeUz1Rb6tIKJshtoMyI4E76dnxaCnuXHmzezgT3BXU8Oty4WnwWJQyORCJkVEhsxj6gcYLQQ==",
+            "DHCP": "false"
+        }
+    }
+}
