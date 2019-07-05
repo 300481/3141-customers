@@ -102,7 +102,6 @@ uploadClusterConfig() {
 
 installIdentity() {
     envsubst < identity.yaml | kubectl apply -f -
-    envsubst < configrepo.yaml | kubectl apply -f -
 }
 
 checkK8sReady() {
