@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
 # very cheap check if parameters are set
-[[ $# -lt 2 ]] && { echo "usage: $0 [start,stop,deploy,decomission] [CUSTOMER]" ; exit 1 ; }
+[[ $# -lt 2 ]] && { echo "usage: $0 [start,stop,deploy,decomission] [IDENTITY]" ; exit 1 ; }
 
 export MODE=${1}
-export CUSTOMER=${2}
+export IDENTITY=${2}
 export SELF_DIR=$(git rev-parse --show-toplevel)
-export SSHDIR=${SELF_DIR}/${CUSTOMER}/.ssh
-export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${CUSTOMER}/config.yaml)
-export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${CUSTOMER}/config.yaml)
-export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${CUSTOMER}/config.yaml)
-export NODECOUNT=$(docker run -i --rm --name yq 300481/yq:v2.4.0 nodecount < ${CUSTOMER}/config.yaml)
+export SSHDIR=${SELF_DIR}/${IDENTITY}/.ssh
+export APPVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 appver < ${IDENTITY}/config.yaml)
+export DNSVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 dnsver < ${IDENTITY}/config.yaml)
+export RKEVER=$(docker run -i --rm --name yq 300481/yq:v2.4.0 rkever < ${IDENTITY}/config.yaml)
+export NODECOUNT=$(docker run -i --rm --name yq 300481/yq:v2.4.0 nodecount < ${IDENTITY}/config.yaml)
 
 JQ="docker run -i --rm 300481/jq:v1.6"
-RKE="docker run -it --rm --name rke -v ${SELF_DIR}/${CUSTOMER}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER}"
+RKE="docker run -it --rm --name rke -v ${SELF_DIR}/${IDENTITY}:/data -v ${SSHDIR}:/.ssh 300481/rke:${RKEVER}"
 URL_READINESS="localhost:8080/api/readiness"
 
 runInit() {
@@ -67,7 +67,7 @@ loadConfig() {
 }
 
 keyGen() {
-    if [[ -f ${CUSTOMER}/.ssh/id_rsa ]] ; then
+    if [[ -f ${IDENTITY}/.ssh/id_rsa ]] ; then
         return
     fi
     if ! [[ -d ${SSHDIR} ]] ; then
@@ -79,7 +79,7 @@ keyGen() {
 }
 
 uploadTemplates() {
-    cd ${CUSTOMER}
+    cd ${IDENTITY}
     for TEMPLATE in $(find api -type f) ; do
         curl -X POST -d "$(< ${TEMPLATE})" localhost:8080/${TEMPLATE}
     done
@@ -90,12 +90,12 @@ uploadConfig() {
     export GW=$(ip route | awk '/default/ { print $3 }')
     export IP=$(ip route | awk '/default/ { print $9 }')
     export PUBKEY=$(< ${SSHDIR}/id_rsa.pub)
-    curl -X POST -d "$(envsubst < ${CUSTOMER}/config.yaml)" localhost:8080/api/config
+    curl -X POST -d "$(envsubst < ${IDENTITY}/config.yaml)" localhost:8080/api/config
 }
 
 uploadClusterConfig() {
-    if [[ -f ${CUSTOMER}/cluster.json ]] ; then
-        curl -X POST -d "$(< ${CUSTOMER}/cluster.json)" localhost:8080/api/cluster
+    if [[ -f ${IDENTITY}/cluster.json ]] ; then
+        curl -X POST -d "$(< ${IDENTITY}/cluster.json)" localhost:8080/api/cluster
     fi
 }
 
@@ -133,14 +133,14 @@ deploy() {
     echo ""
     echo ""
     echo "Getting 3141 cluster config"    
-    curl -s localhost:8080/api/cluster > ${CUSTOMER}/cluster.json
+    curl -s localhost:8080/api/cluster > ${IDENTITY}/cluster.json
     echo "Getting rke cluster config"    
-    curl -s localhost:8080/api/tpl/cluster > ${CUSTOMER}/cluster.yml
+    curl -s localhost:8080/api/tpl/cluster > ${IDENTITY}/cluster.yml
     sleep 2
     ${RKE} up
     [[ -d ${HOME}/.kube ]] || mkdir ${HOME}/.kube
 
-    cp ${SELF_DIR}/${CUSTOMER}/kube_config_cluster.yml ${HOME}/.kube/config
+    cp ${SELF_DIR}/${IDENTITY}/kube_config_cluster.yml ${HOME}/.kube/config
 
     if [[ checkK8sReady ]] ; then
         installIdentity
@@ -168,6 +168,6 @@ case ${MODE} in
         decomission
         ;;
     *)
-        echo "usage: $0 [start,stop,deploy,decomission] [CUSTOMER]"
+        echo "usage: $0 [start,stop,deploy,decomission] [IDENTITY]"
         ;;
 esac
