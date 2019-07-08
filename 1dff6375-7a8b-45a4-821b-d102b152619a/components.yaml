@@ -5,7 +5,7 @@ components:
   directory: helm-chart
   version: v0.7.3
   values:
-    configInline: |-
+    configInline:
       address-pools:
       - name: ip-space
         protocol: layer2
