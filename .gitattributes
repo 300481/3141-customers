@@ -2,3 +2,4 @@
 ka-subscriber-auth.yaml filter=git-crypt diff=git-crypt
 ka-environment.yaml filter=git-crypt diff=git-crypt
 subscriber.json filter=git-crypt diff=git-crypt
+divers.txt filter=git-crypt diff=git-crypt
