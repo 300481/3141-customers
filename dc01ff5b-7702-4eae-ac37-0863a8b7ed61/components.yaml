@@ -11,4 +11,4 @@ components:
         protocol: layer2
         addresses:
         - 192.168.0.112/28
-- name: test1
+- name: test2
