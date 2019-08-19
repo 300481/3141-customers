@@ -2,9 +2,12 @@
 op-env.yaml filter=git-crypt diff=git-crypt
 mq-auth.yaml filter=git-crypt diff=git-crypt
 mq-auth.json filter=git-crypt diff=git-crypt
-kube_config_cluster.yml filter=git-crypt diff=git-crypt
-cluster.yaml filter=git-crypt diff=git-crypt
-cluster.json filter=git-crypt diff=git-crypt
-config.yaml filter=git-crypt diff=git-crypt
+
 id_rsa filter=git-crypt diff=git-crypt
 id_rsa.pub filter=git-crypt diff=git-crypt
+config.yaml filter=git-crypt diff=git-crypt
+cluster.json filter=git-crypt diff=git-crypt
+cluster.yaml filter=git-crypt diff=git-crypt
+kube_config_cluster.yml filter=git-crypt diff=git-crypt
+
+components.yaml filter=git-crypt diff=git-crypt
