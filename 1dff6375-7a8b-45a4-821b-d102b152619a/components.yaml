@@ -10,4 +10,4 @@ components:
       - name: ip-space
         protocol: layer2
         addresses:
-        - 192.168.0.122/28
+        - 192.168.0.222/28
