@@ -9,5 +9,3 @@ config.yaml filter=git-crypt diff=git-crypt
 cluster.json filter=git-crypt diff=git-crypt
 cluster.yaml filter=git-crypt diff=git-crypt
 kube_config_cluster.yml filter=git-crypt diff=git-crypt
-
-components.yaml filter=git-crypt diff=git-crypt
